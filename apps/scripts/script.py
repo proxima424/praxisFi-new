@@ -34,9 +34,14 @@
 def getHistoricalPrice(time):
     return 0
 
+def getPercentChange(initPrice, currentPrice):
+    delta = ( currentPrice - initPrice ) / initPrice
+    return delta
+
 class Position:
-    def __init__(self,curr_leverage,AAVE_deposit,AAVE_borrow,init_time):
+    def __init__(self,init_time,init_price,curr_leverage,AAVE_deposit,AAVE_borrow,):
         self.initTime = init_time
+        self.initPrice = init_price
         self.initial_leverage = curr_leverage
         self.AAVE_deposit = AAVE_deposit
         self.AAVE_borrow = AAVE_borrow
@@ -46,8 +51,11 @@ class Position:
         self.AAVE_borrow += 2*x*getHistoricalPrice(time)
 
     def getLeverage(time):
-        result =  ( self.AAVE_deposit - self.AAVE_borrow ) / getHistoricalPrice(time)
-        result = result * 3
+        currentPrice = getHistoricalPrice(time)
+        delta = getPercentChange(self.initPrice,currentPrice)
+        result_num = ( self.AAVE_deposit - self.AAVE_borrow ) *  ( 1 + delta)
+        result_denom = result_num - self.AAVE_borrow
+        result = result_num / result_denom
         return result
-    
+
 
