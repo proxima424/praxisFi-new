@@ -57,5 +57,6 @@ class Position:
         result_denom = result_num - self.AAVE_borrow
         result = result_num / result_denom
         return result
+    
 
 
