@@ -1,0 +1,8 @@
+-> There is a common misconception that leveraged tokens cannot get liquidated.
+   They can, but it would require a sudden price change of about 50%.
+-> If there was a price drop of this magnitude, our algorithm would reduce its exposure to
+   the token which in turn greatly dimishes the likelihood of liquidation taking place.
+
+
+-> Get past positions by fetching events
+->
