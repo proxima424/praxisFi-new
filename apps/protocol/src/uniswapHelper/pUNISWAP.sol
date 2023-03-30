@@ -1,13 +1,11 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.13;
 
-
 import {ISwapRouter} from "../../lib/v3-periphery/contracts/interfaces/ISwapRouter.sol";
 import {TransferHelper} from "../../lib/v3-periphery/contracts/libraries/TransferHelper.sol";
 
-
-contract SwapExample {
-     ISwapRouter public immutable swapRouter;
+contract SwapHelper {
+    ISwapRouter public immutable swapRouter;
 
     address public constant DAI = 0x6B175474E89094C44Da98b954EedeAC495271d0F;
     address public constant WETH9 = 0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2;
@@ -21,12 +19,12 @@ contract SwapExample {
     }
 
     /// @notice swapExactOutputSingle swaps a minimum possible amount of DAI for a fixed amount of WETH.
-/// @dev The calling address must approve this contract to spend its DAI for this function to succeed. As the amount of input DAI is variable,
-/// the calling address will need to approve for a slightly higher amount, anticipating some variance.
-/// @param amountOut The exact amount of WETH9 to receive from the swap.
-/// @param amountInMaximum The amount of DAI we are willing to spend to receive the specified amount of WETH9.
-/// @return amountIn The amount of DAI actually spent in the swap.
-function swapFixedOutput(uint256 amountOut, uint256 amountInMaximum) external returns (uint256 amountIn) {
+    /// @dev The calling address must approve this contract to spend its DAI for this function to succeed. As the amount of input DAI is variable,
+    /// the calling address will need to approve for a slightly higher amount, anticipating some variance.
+    /// @param amountOut The exact amount of WETH9 to receive from the swap.
+    /// @param amountInMaximum The amount of DAI we are willing to spend to receive the specified amount of WETH9.
+    /// @return amountIn The amount of DAI actually spent in the swap.
+    function swapFixedOutput(uint256 amountOut, uint256 amountInMaximum) external returns (uint256 amountIn) {
         // Transfer the specified amount of DAI to this contract.
         TransferHelper.safeTransferFrom(DAI, msg.sender, address(this), amountInMaximum);
 
@@ -34,17 +32,16 @@ function swapFixedOutput(uint256 amountOut, uint256 amountInMaximum) external re
         // In production, you should choose the maximum amount to spend based on oracles or other data sources to achieve a better swap.
         TransferHelper.safeApprove(DAI, address(swapRouter), amountInMaximum);
 
-        ISwapRouter.ExactOutputSingleParams memory params =
-            ISwapRouter.ExactOutputSingleParams({
-                tokenIn: DAI,
-                tokenOut: WETH9,
-                fee: poolFee,
-                recipient: msg.sender,
-                deadline: block.timestamp,
-                amountOut: amountOut,
-                amountInMaximum: amountInMaximum,
-                sqrtPriceLimitX96: 0
-            });
+        ISwapRouter.ExactOutputSingleParams memory params = ISwapRouter.ExactOutputSingleParams({
+            tokenIn: DAI,
+            tokenOut: WETH9,
+            fee: poolFee,
+            recipient: msg.sender,
+            deadline: block.timestamp,
+            amountOut: amountOut,
+            amountInMaximum: amountInMaximum,
+            sqrtPriceLimitX96: 0
+        });
 
         // Executes the swap returning the amountIn needed to spend to receive the desired amountOut.
         amountIn = swapRouter.exactOutputSingle(params);
@@ -56,7 +53,4 @@ function swapFixedOutput(uint256 amountOut, uint256 amountInMaximum) external re
             TransferHelper.safeTransfer(DAI, msg.sender, amountInMaximum - amountIn);
         }
     }
-
-
-
 }
