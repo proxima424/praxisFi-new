@@ -13,3 +13,6 @@
 	url = https://github.com/aave/aave-v3-core
 [submodule "lib\\aave-v3-core"]
 	branch = v1.17.2
+[submodule "apps/protocol/lib/v3-periphery"]
+	path = apps/protocol/lib/v3-periphery
+	url = https://github.com/Uniswap/v3-periphery
