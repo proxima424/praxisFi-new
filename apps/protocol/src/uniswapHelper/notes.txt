@@ -1,0 +1,20 @@
+Implement a single-path swap contract that uses two functions that you create:
+-> swapExactInputSingle
+-> swapExactOutputSingle
+
+The swapExactInputSingle function
+is for performing exact input swaps,
+which swap a fixed amount of one token
+for a maximum possible amount of another token.
+
+This function uses the exactInputSingle function from the ISwapRouter interface.
+
+The swapExactOutputSingle function
+is for performing exact output swaps,               
+which swap a minimum possible amount of one token
+for a fixed amount of another token.
+
+
+
+
+

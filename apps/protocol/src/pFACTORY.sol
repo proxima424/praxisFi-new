@@ -3,10 +3,9 @@ pragma solidity ^0.8.13;
 
 // DEPENDENCIES, imports
 
-import "../lib";
-
-
-
+import {Ownable} from "../lib/openzeppelin-contracts/contracts/access/Ownable.sol";
+import {IERC20} from "../lib/openzeppelin-contracts/contracts/interfaces/IERC20.sol";
+import {IPool} from "../lib/aave-v3-core/contracts/interfaces/IPool.sol";
 
 /// @author proxima424 <https://github.com/proxima424>
 /// Contract is Ownable to provide the onlyOwner modifier
@@ -24,7 +23,8 @@ contract pFACTORY is Ownable {
 
     address public immutable aavePool;
 
-    address public immutable ETH3XUP;
+    // To be set via calling deployERC20()
+    address public ETH3XUP;
 
     address public immutable depositToken;
 
@@ -67,19 +67,19 @@ contract pFACTORY is Ownable {
 
     // Give Allowance damn
     function give_Allowances() external onlyOwner {
-        IERC20(aavePool).approve(depositToken,type(uint256).max);
-        IERC20(aavePool).approve(borrowToken,type(uint256).max);
+        IERC20(aavePool).approve(depositToken, type(uint256).max);
+        IERC20(aavePool).approve(borrowToken, type(uint256).max);
     }
 
-    
+    // DEPOSIT IN AAVE
+    function supply_depositToken(uint256 amount) internal {
+        IPool(aavePool).supply(depositToken, amount, address(this), 0);
+    }
 
-
-
-
-
-
-
-
+    // BORROW FROM AAVE
+    function borrow_borrowToken(uint256 amount) internal {
+        IPool(aavePool).borrow(borrowToken, amount, 1, 0, address(this));
+    }
 
     // CORE FUNCTIONS
 }

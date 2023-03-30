@@ -21,3 +21,5 @@
 [submodule "apps/protocol/lib/v3-core"]
 	path = apps/protocol/lib/v3-core
 	url = https://github.com/Uniswap/v3-core
+[submodule "lib\\v3-core"]
+	branch = v1.0.0
