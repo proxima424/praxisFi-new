@@ -16,3 +16,8 @@
 [submodule "apps/protocol/lib/v3-periphery"]
 	path = apps/protocol/lib/v3-periphery
 	url = https://github.com/Uniswap/v3-periphery
+[submodule "lib\\v3-periphery"]
+	branch = v1.3.0
+[submodule "apps/protocol/lib/v3-core"]
+	path = apps/protocol/lib/v3-core
+	url = https://github.com/Uniswap/v3-core
