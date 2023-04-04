@@ -45,6 +45,7 @@ contract SwapTester is Test {
 
         vm.startPrank(rich);
         // DAI TO WETH
+        // swapFixedAmount ( kya chahiye, kitne doge )
         uint256 out_dai = swapper.swapFixedOutput(2 * 10 ** 18, 4000 * 10 ** 18);
         vm.stopPrank();
 

@@ -14,7 +14,7 @@ contract pERC20 is ERC20, Ownable {
     // To be deployed by the factory contract
     // To set itself as the Owner
     // Minting, Burning will be done only by pFACTORY.sol
-    constructor() ERC20("Praxis ETH3XUP", "ETH3XUP") {}
+    constructor() ERC20("ETH3XUP", "ETH3XUP") {}
 
     function mint(address recepient, uint256 amount) external onlyOwner {
         _mint(recepient, amount);

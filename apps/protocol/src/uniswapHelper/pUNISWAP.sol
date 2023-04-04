@@ -26,14 +26,14 @@ contract SwapHelper {
     /// @return amountIn The amount of DAI actually spent in the swap.
     function swapFixedOutput(uint256 amountOut, uint256 amountInMaximum) external returns (uint256 amountIn) {
         // Transfer the specified amount of DAI to this contract.
-        TransferHelper.safeTransferFrom(DAI, msg.sender, address(this), amountInMaximum);
+        TransferHelper.safeTransferFrom(USDC, msg.sender, address(this), amountInMaximum);
 
         // Approve the router to spend the specified `amountInMaximum` of DAI.
         // In production, you should choose the maximum amount to spend based on oracles or other data sources to achieve a better swap.
-        TransferHelper.safeApprove(DAI, address(swapRouter), amountInMaximum);
+        TransferHelper.safeApprove(USDC, address(swapRouter), amountInMaximum);
 
         ISwapRouter.ExactOutputSingleParams memory params = ISwapRouter.ExactOutputSingleParams({
-            tokenIn: DAI,
+            tokenIn: USDC,
             tokenOut: WETH9,
             fee: poolFee,
             recipient: msg.sender,
@@ -49,8 +49,8 @@ contract SwapHelper {
         // For exact output swaps, the amountInMaximum may not have all been spent.
         // If the actual amount spent (amountIn) is less than the specified maximum amount, we must refund the msg.sender and approve the swapRouter to spend 0.
         if (amountIn < amountInMaximum) {
-            TransferHelper.safeApprove(DAI, address(swapRouter), 0);
-            TransferHelper.safeTransfer(DAI, msg.sender, amountInMaximum - amountIn);
+            TransferHelper.safeApprove(USDC, address(swapRouter), 0);
+            TransferHelper.safeTransfer(USDC, msg.sender, amountInMaximum - amountIn);
         }
     }
 }
